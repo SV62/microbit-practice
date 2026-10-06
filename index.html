@@ -6,390 +6,156 @@
 <title>micro:bit Practice Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
-/* Layout: a short intro and a glossary strip, then three lesson "stations": code blocks beside a pretend micro:bit, a plain-English note, then check questions. */
+/* Layout: a picture book. One idea per screen, huge words, one big Next button. */
 :root{
-  --bg:#edf1f7; --surface:#ffffff; --ink:#1a2333; --muted:#566275; --line:#d4dbe6; --accent:#2b56c4; --accent-soft:#e3eafb;
-  --good:#1f8a4c; --good-soft:#e2f4ea; --bad:#c23b3b; --bad-soft:#fbe6e6;
-  --pcb:#1f2430; --pcb-edge:#2e3545; --led-off:#3a2c33; --led-on:#ff3d2e; --pad:#c9a43a;
-  --b-basic:#1e7fe0; --b-var:#d4213d; --b-logic:#00737a; --b-input:#b31fb3; --b-loop:#1d9a2f; --b-math:#7d2fc4; --run:#ffd23f;
+  --bg:#eef3fb; --surface:#ffffff; --ink:#18202e; --muted:#4f5b6e; --line:#d3dcea;
+  --accent:#2563d9; --accent-ink:#ffffff; --accent-soft:#dfe9fc; --sun:#ffd23f;
+  --good:#17824a; --good-soft:#dcf3e6; --bad:#b93434; --bad-soft:#fbe4e4;
+  --pcb:#1f2430; --pcb-edge:#323a4c; --led-off:#3b2c33; --led-on:#ff3d2e; --pad:#c9a43a;
+  --b-basic:#1e7fe0; --b-var:#d4213d; --b-logic:#00737a; --b-input:#b31fb3; --b-loop:#1d9a2f; --b-math:#7d2fc4;
   --f-display:"Baloo 2", "Trebuchet MS", system-ui, sans-serif;
   --f-body:"Nunito", "Segoe UI", system-ui, sans-serif;
-  --f-code:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --f-code:"JetBrains Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#10141b; --surface:#19202a; --ink:#e6ebf2; --muted:#9aa6b7; --line:#2a3340; --accent:#8aa8ff; --accent-soft:#1f2a44;
-  --good:#5fd08f; --good-soft:#15301f; --bad:#ff8a8a; --bad-soft:#3a1c1c;
-  --pcb:#0b0e14; --pcb-edge:#262d3b; --led-off:#2e2228; color-scheme:dark; } }
+  --bg:#10141b; --surface:#1a212b; --ink:#eef2f7; --muted:#a6b0bf; --line:#2c3542;
+  --accent:#6f9bff; --accent-ink:#0d1320; --accent-soft:#1f2b45;
+  --good:#63d494; --good-soft:#16301f; --bad:#ff8f8f; --bad-soft:#3a1d1d;
+  --pcb:#0b0e14; --pcb-edge:#2a3242; --led-off:#2f2329; color-scheme:dark; } }
 :root[data-theme="dark"]{
-  --bg:#10141b; --surface:#19202a; --ink:#e6ebf2; --muted:#9aa6b7; --line:#2a3340; --accent:#8aa8ff; --accent-soft:#1f2a44;
-  --good:#5fd08f; --good-soft:#15301f; --bad:#ff8a8a; --bad-soft:#3a1c1c;
-  --pcb:#0b0e14; --pcb-edge:#262d3b; --led-off:#2e2228; color-scheme:dark; }
+  --bg:#10141b; --surface:#1a212b; --ink:#eef2f7; --muted:#a6b0bf; --line:#2c3542;
+  --accent:#6f9bff; --accent-ink:#0d1320; --accent-soft:#1f2b45;
+  --good:#63d494; --good-soft:#16301f; --bad:#ff8f8f; --bad-soft:#3a1d1d;
+  --pcb:#0b0e14; --pcb-edge:#2a3242; --led-off:#2f2329; color-scheme:dark; }
 
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg); color:var(--ink); font:17px/1.65 var(--f-body); padding-inline:16px; padding-block:24px 64px}
-.wrap{max-width:1040px; margin:0 auto; display:flex; flex-direction:column; gap:28px}
-h1,h2,h3{font-family:var(--f-display); line-height:1.15; margin:0; text-wrap:balance}
-h1{font-size:clamp(2rem,5vw,2.9rem); font-weight:800; letter-spacing:-.01em}
-h2{font-size:clamp(1.5rem,3.4vw,2rem); font-weight:700}
-h3{font-size:1.15rem; font-weight:700}
-p{margin:0; max-width:66ch}
-.muted{color:var(--muted)}
-.eyebrow{font:700 .74rem/1 var(--f-body); letter-spacing:.12em; text-transform:uppercase; color:var(--accent)}
+body{background:var(--bg); color:var(--ink); font:500 20px/1.5 var(--f-body); padding-inline:16px; padding-block:16px 40px}
+.app{max-width:720px; margin:0 auto; display:flex; flex-direction:column; gap:16px}
+h1,h2{font-family:var(--f-display); line-height:1.1; margin:0; text-wrap:balance}
+h1{font-size:clamp(2.2rem,8vw,3.2rem); font-weight:800}
+h2{font-size:clamp(2rem,7vw,2.9rem); font-weight:800}
+p{margin:0}
+button{font-family:inherit; cursor:pointer}
+button:focus-visible{outline:4px solid var(--sun); outline-offset:3px}
 
-header.intro{display:flex; flex-direction:column; gap:10px}
-.intro p{font-size:1.06rem}
+/* top bar */
+.top{display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:52px}
+.home-btn{font:800 1.05rem var(--f-body); background:var(--surface); color:var(--ink); border:2px solid var(--line); border-radius:14px; padding:10px 18px}
+.dots{display:flex; gap:8px; flex-wrap:wrap}
+.dots i{width:14px; height:14px; border-radius:50%; background:var(--line)}
+.dots i.on{background:var(--accent)}
+.dots i.done{background:var(--accent); opacity:.4}
 
-/* glossary */
-.gloss{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px}
-.term{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:12px 14px; display:flex; flex-direction:column; gap:4px}
-.term b{font-family:var(--f-display); font-size:1.05rem}
-.term span{font-size:.9rem; color:var(--muted); line-height:1.45}
+/* card */
+.card{background:var(--surface); border:2px solid var(--line); border-radius:24px; padding:24px 20px; display:flex; flex-direction:column; gap:20px; align-items:center; text-align:center; min-height:60vh}
+.card .say{font-size:clamp(1.3rem,4.6vw,1.6rem); line-height:1.45; max-width:30ch}
+.card .say b{color:var(--accent)}
+.bookword{font:800 .95rem var(--f-body); background:var(--accent-soft); color:var(--ink); border-radius:999px; padding:6px 16px}
+.msg{font:800 clamp(1.25rem,4.5vw,1.5rem) var(--f-body); color:var(--accent); min-height:1.6em}
+.nav{display:flex; gap:12px; justify-content:space-between}
+.nav button{font:800 1.4rem var(--f-display); border-radius:18px; padding:14px 28px; border:2px solid var(--line); background:var(--surface); color:var(--ink); min-height:64px}
+.nav .next{background:var(--accent); border-color:var(--accent); color:var(--accent-ink); flex:1; max-width:340px; margin-left:auto}
+.nav button:disabled{visibility:hidden}
 
-/* tabs */
-nav.tabs{display:flex; flex-wrap:wrap; gap:8px; position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--bg); padding-block:8px}
-nav.tabs{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
-nav.tabs button{font:700 1.05rem var(--f-body); color:var(--ink); background:var(--surface); border:2px solid var(--line); border-radius:14px; padding:12px 16px; cursor:pointer; display:flex; flex-direction:column; gap:2px; align-items:flex-start; text-align:left}
-nav.tabs button .n{font-size:.82rem; font-weight:600; color:var(--muted)}
-.start{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px}
-.steps{margin:0; padding-left:22px; display:flex; flex-direction:column; gap:8px}
-.yellow{background:var(--run); color:#1a2333; border-radius:4px; padding:0 5px; font-weight:700}
-.plain{margin:0; padding-left:22px; display:flex; flex-direction:column; gap:10px}
-.plain li span.b{font:500 .82rem var(--f-code); color:#fff; background:var(--c); border-radius:5px; padding:2px 7px; white-space:nowrap}
-.doit{background:var(--accent-soft); border-radius:10px; padding:10px 14px; font-weight:700; text-align:center; max-width:36ch}
-nav.tabs button[aria-selected="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
-nav.tabs button[aria-selected="true"] .n{color:#dfe7ff}
-button:focus-visible{outline:3px solid var(--run); outline-offset:2px}
+/* home tiles */
+.tiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px}
+.tile{display:flex; align-items:center; gap:18px; text-align:left; background:var(--surface); border:3px solid var(--line); border-radius:22px; padding:18px; color:var(--ink)}
+.tile.first{border-color:var(--accent)}
+.tile .t{font:800 1.5rem/1.15 var(--f-display)}
+.tile .s{font-size:1rem; color:var(--muted)}
+.tile .go{margin-left:auto; font:800 2rem var(--f-display); color:var(--accent)}
 
-/* lesson */
-.lesson{display:flex; flex-direction:column; gap:20px}
-.lesson-head{display:flex; flex-direction:column; gap:6px}
-.stage{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:20px; align-items:start}
-@media (max-width:760px){ .stage{grid-template-columns:1fr} }
-.panel{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px; display:flex; flex-direction:column; gap:14px; min-width:0}
-.panel-label{font:700 .72rem/1 var(--f-body); letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
-
-/* MakeCode-style blocks */
-.code{display:flex; flex-wrap:wrap; gap:14px; align-items:flex-start; overflow-x:auto; padding-bottom:4px}
-.blk, .hat{font:500 13px/1 var(--f-code); color:#fff; transition:filter .15s, box-shadow .15s}
-.blk{display:inline-flex; align-items:center; gap:7px; background:var(--c); border-radius:6px; padding:8px 10px; white-space:nowrap}
-.hat{display:flex; flex-direction:column; background:var(--c); border-radius:8px; padding:8px 10px 10px; gap:6px; min-width:0}
-.hat > .title{display:flex; align-items:center; gap:7px; white-space:nowrap}
-.body{display:flex; flex-direction:column; gap:5px; margin-left:12px; padding:6px; border-radius:6px; background:rgba(0,0,0,.14)}
-.pill{display:inline-flex; align-items:center; gap:4px; background:var(--c2,rgba(0,0,0,.22)); color:#fff; border-radius:999px; padding:4px 9px}
-.num{background:#fff; color:#222; border-radius:999px; padding:3px 9px; font-weight:700}
-.dd::after{content:"▾"; font-size:10px; opacity:.85; margin-left:2px}
-.run{box-shadow:0 0 0 3px var(--run); filter:brightness(1.12)}
-.active-branch{box-shadow:inset 0 0 0 2px var(--run)}
-.mini-leds{display:grid; grid-template-columns:repeat(5,9px); gap:2px; background:rgba(0,0,0,.25); padding:4px; border-radius:4px}
-.mini-leds i{width:9px; height:9px; border-radius:2px; background:rgba(255,255,255,.18)}
-.mini-leds i.on{background:#fff}
+/* little LED pictures */
+.pic{display:grid; grid-template-columns:repeat(5,1fr); gap:3px; background:var(--pcb); padding:7px; border-radius:10px; width:var(--w,64px); flex:none}
+.pic i{aspect-ratio:1; border-radius:2px; background:var(--led-off)}
+.pic i.on{background:var(--led-on); box-shadow:0 0 6px rgba(255,61,46,.7)}
 
 /* micro:bit */
-.boardwrap{display:flex; flex-direction:column; align-items:center; gap:14px}
-.mb{width:min(100%,340px); aspect-ratio:1.25/1; max-width:100%; background:var(--pcb); border:3px solid var(--pcb-edge); border-radius:18px; position:relative; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:10px; padding:22px 14px 40px}
+.mb{width:min(100%,360px); aspect-ratio:1.25/1; background:var(--pcb); border:4px solid var(--pcb-edge); border-radius:20px; position:relative; display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:10px; padding:34px 12px 46px}
+.mb.off{filter:brightness(.6) saturate(.3)}
 .mb.off .led{background:var(--led-off)!important; box-shadow:none!important}
-.mb.off{filter:saturate(.4) brightness(.8)}
-.mb .pads{position:absolute; left:10px; right:10px; bottom:6px; display:flex; justify-content:space-between}
+.mb .pads{position:absolute; left:10px; right:10px; bottom:8px; display:flex; justify-content:space-between}
 .mb .pads span{width:24px; height:24px; border-radius:50% 50% 4px 4px; background:var(--pad); color:#1f2430; font:700 10px/24px var(--f-code); text-align:center}
 .mb .pads span.wide{width:34px}
-.grid5{display:grid; grid-template-columns:repeat(5,1fr); gap:9%; width:72%; justify-self:center}
-.led{aspect-ratio:1; border-radius:3px; background:var(--led-off); transition:background .05s}
-.led.on{background:var(--led-on); box-shadow:0 0 10px 2px rgba(255,61,46,.65)}
-.mbtn{width:52px; height:52px; border-radius:8px; background:#3a4152; border:2px solid #5a6276; display:grid; place-items:center; cursor:pointer; padding:0; position:relative}
-.mbtn::before{content:""; width:24px; height:24px; border-radius:50%; background:#11141b; box-shadow:inset 0 -2px 0 #000}
-.mbtn:active::before,.mbtn.pressed::before{transform:scale(.88); background:#000}
-.mbtn b{position:absolute; top:-20px; left:50%; transform:translateX(-50%); color:var(--pad); font:800 13px var(--f-display)}
+.grid5{display:grid; grid-template-columns:repeat(5,1fr); gap:7px; width:100%; max-width:160px; justify-self:center}
+.led{aspect-ratio:1; border-radius:3px; background:var(--led-off)}
+.led.on{background:var(--led-on); box-shadow:0 0 12px 3px rgba(255,61,46,.65)}
+.mbtn{width:56px; height:56px; border-radius:12px; background:#3a4152; border:3px solid #5d667b; display:grid; place-items:center; padding:0; position:relative}
+.mbtn::before{content:""; width:32px; height:32px; border-radius:50%; background:#0f1218; box-shadow:inset 0 -3px 0 #000}
+.mbtn:active::before{transform:scale(.86)}
+.mbtn b{position:absolute; top:-28px; left:50%; transform:translateX(-50%); color:var(--sun); font:800 1.3rem var(--f-display)}
+.mbtn.hint{animation:ring 1.2s ease-out infinite}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(255,210,63,.95)}100%{box-shadow:0 0 0 22px rgba(255,210,63,0)}}
 .mb.shaking{animation:shake .12s linear infinite}
-@keyframes shake{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(-6px,2px) rotate(-3deg)}50%{transform:translate(5px,-2px) rotate(2deg)}75%{transform:translate(-4px,-1px) rotate(-2deg)}100%{transform:translate(0,0)}}
-@media (prefers-reduced-motion: reduce){ .mb.shaking{animation:none; outline:3px dashed var(--run)} }
+@keyframes shake{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(-7px,2px) rotate(-3deg)}50%{transform:translate(6px,-2px) rotate(2deg)}75%{transform:translate(-4px,-1px) rotate(-2deg)}100%{transform:translate(0,0)}}
+@media (prefers-reduced-motion: reduce){ .mb.shaking{animation:none; outline:4px dashed var(--sun)} .mbtn.hint{animation:none; outline:4px solid var(--sun)} }
 
-.controls{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; align-items:center}
-.btn{font:700 1.05rem var(--f-body); border-radius:12px; padding:12px 20px; cursor:pointer; border:1px solid var(--line); background:var(--surface); color:var(--ink)}
-.btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
-.btn:disabled{opacity:.5; cursor:not-allowed}
-label.inline{display:flex; gap:8px; align-items:center; font-weight:600; font-size:.95rem}
-input[type=number]{width:64px; font:700 1rem var(--f-code); padding:6px 8px; border-radius:8px; border:1px solid var(--line); background:var(--surface); color:var(--ink)}
+.big-btn{font:800 1.5rem var(--f-display); background:var(--sun); color:#1a2333; border:none; border-radius:18px; padding:14px 30px; min-height:64px}
+.hint{animation:ring 1.2s ease-out infinite}
 
-.status{display:flex; flex-wrap:wrap; gap:8px; justify-content:center}
-.chip{font:700 .85rem var(--f-code); border-radius:999px; padding:5px 12px; background:var(--accent-soft); color:var(--ink); font-variant-numeric:tabular-nums}
-.chip.t{background:var(--good-soft); color:var(--good)}
-.chip.f{background:var(--bad-soft); color:var(--bad)}
-.varbox{display:flex; align-items:center; gap:10px; justify-content:center}
-.varbox .box{border:2px dashed var(--b-var); border-radius:10px; padding:6px 14px; display:flex; flex-direction:column; align-items:center; min-width:96px}
-.varbox .box small{font:700 .7rem var(--f-body); letter-spacing:.1em; text-transform:uppercase; color:var(--b-var)}
-.varbox .box output{font:800 2rem/1.1 var(--f-display); font-variant-numeric:tabular-nums}
-.log{font:.92rem/1.45 var(--f-body); color:var(--muted); text-align:center; min-height:2.9em; max-width:40ch}
+/* the "box" for the variable */
+.box{position:relative; width:170px; padding:34px 0 16px; background:#c98a4b; border-radius:8px 8px 14px 14px; box-shadow:inset 0 -8px 0 rgba(0,0,0,.15)}
+.box::before{content:""; position:absolute; left:-8px; right:-8px; top:-14px; height:24px; background:#dba066; border-radius:6px}
+.box .label{position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:#fff; color:#d4213d; font:800 1rem var(--f-body); padding:2px 12px; border-radius:6px; border:2px solid #d4213d; z-index:1}
+.box output{display:block; font:800 4rem/1 var(--f-display); color:#fff; font-variant-numeric:tabular-nums; text-shadow:0 2px 0 rgba(0,0,0,.2)}
 
-/* explain */
-.explain{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px}
-.explain .panel p{font-size:.98rem}
-.explain ul{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:6px}
-.analogy{border-left:4px solid var(--accent); padding-left:12px}
+/* yes / no choice */
+.choice{display:flex; gap:14px; justify-content:center; flex-wrap:wrap}
+.opt{display:flex; flex-direction:column; align-items:center; gap:10px; padding:14px 18px; border-radius:18px; border:3px solid var(--line); background:var(--bg); min-width:140px; transition:transform .15s}
+.opt b{font:800 1.4rem var(--f-display)}
+.opt span{font-size:1rem; color:var(--muted)}
+.opt.lit{border-color:var(--sun); background:var(--surface); transform:scale(1.06); box-shadow:0 0 0 4px rgba(255,210,63,.35)}
+
+/* counting dots */
+.counter{display:flex; gap:12px; justify-content:center}
+.counter span{width:52px; height:52px; border-radius:50%; border:3px solid var(--line); display:grid; place-items:center; font:800 1.5rem var(--f-display); color:var(--muted)}
+.counter span.on{background:var(--b-loop); border-color:var(--b-loop); color:#fff}
+.equals{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center; font:800 1.4rem var(--f-display)}
+
+/* code blocks */
+.blk{display:inline-flex; align-items:center; gap:7px; background:var(--c); color:#fff; border-radius:8px; padding:10px 12px; font:500 15px/1 var(--f-code); white-space:nowrap; border:none}
+.pill{background:rgba(0,0,0,.22); border-radius:999px; padding:4px 10px}
+.num{background:#fff; color:#222; border-radius:999px; padding:3px 10px; font-weight:700}
+.blk.tap{font-size:20px; padding:16px 18px}
+.meaning{display:flex; flex-direction:column; gap:12px; width:100%; max-width:560px}
+.row{display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); gap:10px; align-items:center; text-align:left; background:var(--bg); border-radius:14px; padding:10px 12px}
+.row .eq{font:800 1.4rem var(--f-display); color:var(--muted)}
+.row .w{font-size:1.15rem; font-weight:700}
+.row .blk{white-space:normal; line-height:1.3}
+@media (max-width:520px){ .row{grid-template-columns:1fr} .row .eq{display:none} }
 
 /* quiz */
-.quiz{display:flex; flex-direction:column; gap:16px}
-.q{display:flex; flex-direction:column; gap:8px}
-.q .prompt{font-weight:700}
-.opts{display:flex; flex-wrap:wrap; gap:8px}
-.opts button{font:600 .95rem var(--f-body); text-align:left; border-radius:10px; padding:8px 14px; border:1px solid var(--line); background:var(--bg); color:var(--ink); cursor:pointer}
-.opts button.right{background:var(--good-soft); border-color:var(--good); color:var(--good)}
-.opts button.wrong{background:var(--bad-soft); border-color:var(--bad); color:var(--bad)}
-.fb{font-size:.93rem; color:var(--muted)}
-.score{font:700 .95rem var(--f-body); color:var(--accent)}
-footer{color:var(--muted); font-size:.9rem}
+.answers{display:flex; gap:14px; justify-content:center; flex-wrap:wrap}
+.ans{font:800 2rem var(--f-display); min-width:110px; min-height:90px; border-radius:20px; border:3px solid var(--line); background:var(--bg); color:var(--ink); padding:12px 18px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px}
+.ans small{font:700 1rem var(--f-body)}
+.ans.right{background:var(--good-soft); border-color:var(--good); color:var(--good)}
+.ans.wrong{background:var(--bad-soft); border-color:var(--bad); color:var(--bad)}
+.star{font:800 5rem/1 var(--f-display); color:var(--sun); text-shadow:0 3px 0 rgba(0,0,0,.12)}
+footer{color:var(--muted); font-size:.95rem; text-align:center}
 </style>
 </head>
 <body>
-<div class="wrap">
-
-<header class="intro">
-  <span class="eyebrow">For parents · Computer class chapter</span>
-  <h1>micro:bit Practice Lab</h1>
-  <p>This page explains the three programs in your child's computer book, in simple words. You don't need to know anything about computers to use it.</p>
-</header>
-
-<section class="start" aria-labelledby="start-h">
-  <div class="panel">
-    <h3 id="start-h">What is a micro:bit?</h3>
-    <p>It is a very small computer, about the size of a bank card. It has <b>2 buttons</b> (called A and B) and <b>25 tiny red lights</b> that can show numbers and pictures.</p>
-    <p>Children tell it what to do by joining <b>coloured blocks</b> together, a bit like LEGO. Each block is one instruction. This is called a <b>program</b>.</p>
+<div class="app">
+  <div class="top">
+    <button class="home-btn" id="homeBtn" hidden>← All lessons</button>
+    <div class="dots" id="dots" aria-hidden="true"></div>
   </div>
-  <div class="panel">
-    <h3>How to use this page</h3>
-    <ol class="steps">
-      <li>Pick a lesson using the three big buttons below. They match the pages in the book.</li>
-      <li>Tap the <b>A</b> or <b>B</b> button on the pretend micro:bit (the black board).</li>
-      <li>Watch the lights change. A <span class="yellow">yellow line</span> appears around the block that is working at that moment.</li>
-      <li>Answer the questions at the bottom. They are like the ones in the book.</li>
-    </ol>
-  </div>
-</section>
-
-<section aria-labelledby="gloss-h" style="display:flex;flex-direction:column;gap:10px">
-  <h3 id="gloss-h">Book words in simple English</h3>
-  <div class="gloss">
-    <div class="term"><b>Input</b><span>What goes <i>in</i>. The micro:bit notices you pressing a button or shaking it.</span></div>
-    <div class="term"><b>Output</b><span>What comes <i>out</i>. The lights show a number or a face.</span></div>
-    <div class="term"><b>Variable</b><span>A box with a name that keeps a number, like a score in a game. The number can change.</span></div>
-    <div class="term"><b>Selection (if / else)</b><span>Making a choice. <i>If</i> something is true, do this. Otherwise (<i>else</i>), do that.</span></div>
-    <div class="term"><b>Iteration (loop)</b><span>Doing the same thing again and again, like "clap 4 times".</span></div>
-    <div class="term"><b>Event</b><span>Waiting for something to happen, like a doorbell waiting to be pressed.</span></div>
-  </div>
-</section>
-
-<nav class="tabs" role="tablist" aria-label="Lessons">
-  <button role="tab" id="tab-count" aria-controls="count" aria-selected="true">1. Counting<span class="n">book page 112</span></button>
-  <button role="tab" id="tab-shake" aria-controls="shake" aria-selected="false">2. Happy or sad face<span class="n">book page 110</span></button>
-  <button role="tab" id="tab-repeat" aria-controls="repeat" aria-selected="false">3. Flashing arrow<span class="n">"Now try this"</span></button>
-</nav>
-
-<!-- LESSON 1 -->
-<section class="lesson" id="count" role="tabpanel" aria-labelledby="tab-count">
-  <div class="lesson-head">
-    <span class="eyebrow">Lesson 1 · Book page 112 · Topic: variables</span>
-    <h2>Counting how many times button A is pressed</h2>
-    <p class="muted">Think of a cricket scoreboard. It starts at 0, and every time a run is scored, the number goes up by one. This program does the same thing with button A.</p>
-  </div>
-  <div class="stage">
-    <div class="panel">
-      <span class="panel-label">The code, as it looks in the book</span>
-      <div class="code">
-        <div class="hat" style="--c:var(--b-basic)" id="c-start">
-          <div class="title">on start</div>
-          <div class="body">
-            <span class="blk" style="--c:var(--b-var)" id="c-set0">set <span class="pill dd">Count</span> to <span class="num">0</span></span>
-            <span class="blk" style="--c:var(--b-basic)" id="c-show0">show number <span class="pill dd" style="--c2:var(--b-var)">Count</span></span>
-          </div>
-        </div>
-        <div class="hat" style="--c:var(--b-basic)" id="c-forever">
-          <div class="title">forever</div>
-          <div class="body">
-            <div class="hat" style="--c:var(--b-logic)" id="c-if">
-              <div class="title">if <span class="pill" style="--c2:var(--b-input)"><span class="dd">button A</span> is pressed</span> then</div>
-              <div class="body">
-                <span class="blk" style="--c:var(--b-var)" id="c-inc">set <span class="pill dd">Count</span> to <span class="pill" style="--c2:var(--b-math)"><span class="pill dd" style="--c2:var(--b-var)">Count</span> + <span class="num">1</span></span></span>
-                <span class="blk" style="--c:var(--b-basic)" id="c-show">show number <span class="pill dd" style="--c2:var(--b-var)">Count</span></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel boardwrap">
-      <span class="panel-label">Pretend micro:bit</span>
-      <p class="doit">Tap the A button on the left of the board a few times</p>
-      <div class="mb" id="mb1"></div>
-      <div class="varbox"><div class="box"><small>Count</small><output id="v-count">0</output></div></div>
-      <p class="log" id="log1" aria-live="polite">The micro:bit is switched on, so Count starts at 0. Now tap button A.</p>
-      <div class="controls">
-        <button class="btn" id="unplug">Unplug battery</button>
-      </div>
-    </div>
-  </div>
-  <div class="explain">
-    <div class="panel">
-      <h3>What the blocks say, in plain English</h3>
-      <ol class="plain">
-        <li><span class="b" style="--c:var(--b-basic)">on start</span> When the micro:bit is switched on, do these things <b>once</b>:</li>
-        <li><span class="b" style="--c:var(--b-var)">set Count to 0</span> Make a box called "Count" and put 0 in it.</li>
-        <li><span class="b" style="--c:var(--b-basic)">show number Count</span> Show that number on the lights.</li>
-        <li><span class="b" style="--c:var(--b-basic)">forever</span> Then keep doing the next part again and again, without stopping:</li>
-        <li><span class="b" style="--c:var(--b-logic)">if button A is pressed</span> Is someone pressing button A? If yes:</li>
-        <li><span class="b" style="--c:var(--b-var)">set Count to Count + 1</span> Add 1 to the number in the box.</li>
-        <li><span class="b" style="--c:var(--b-basic)">show number Count</span> Show the new number.</li>
-      </ol>
-    </div>
-    <div class="panel">
-      <h3>Try this</h3>
-      <ul>
-        <li>Tap A three times. You should see <b>3</b>. That is the answer to question 4 in the book.</li>
-        <li>Tap B. Nothing happens, because the program only looks at button A.</li>
-        <li>Tap the <b>Unplug battery</b> button, then plug it back in. The number goes back to 0. The program is still saved inside, but it starts again from the beginning.</li>
-      </ul>
-      <p class="analogy">The word <b>variable</b> just means a box with a name that holds a number that can change. Here the box is called Count.</p>
-    </div>
-  </div>
-  <div class="panel quiz" data-quiz="count"><h3>Quick quiz</h3><p class="muted">Tap the answer you think is right. Green means correct.</p></div>
-</section>
-
-<!-- LESSON 2 -->
-<section class="lesson" id="shake" role="tabpanel" aria-labelledby="tab-shake" hidden>
-  <div class="lesson-head">
-    <span class="eyebrow">Lesson 2 · Book page 110 · Topic: selection (if / else)</span>
-    <h2>Shake it and it looks sad. Leave it and it looks happy</h2>
-    <p class="muted">The program asks one yes-or-no question again and again: "Is someone shaking me?" If the answer is <b>yes</b>, it shows a sad face. If the answer is <b>no</b>, it shows a happy face.</p>
-  </div>
-  <div class="stage">
-    <div class="panel">
-      <span class="panel-label">The code, as it looks in the book</span>
-      <div class="code">
-        <div class="hat" style="--c:var(--b-basic)">
-          <div class="title">forever</div>
-          <div class="body">
-            <div class="hat" style="--c:var(--b-logic)" id="s-if">
-              <div class="title">if <span class="pill" style="--c2:var(--b-input)">is <span class="dd">shake</span> gesture</span> then</div>
-              <div class="body" id="s-then">
-                <span class="blk" style="--c:var(--b-basic)">show icon <span class="mini-leds" data-icon="sad"></span></span>
-              </div>
-              <div class="title">else</div>
-              <div class="body" id="s-else">
-                <span class="blk" style="--c:var(--b-basic)">show icon <span class="mini-leds" data-icon="happy"></span></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel boardwrap">
-      <span class="panel-label">Pretend micro:bit</span>
-      <p class="doit">Tap the blue "Shake it" button under the board</p>
-      <div class="mb" id="mb2"></div>
-      <div class="status"><span class="chip f" id="cond">Is it being shaken? NO</span></div>
-      <p class="log" id="log2" aria-live="polite">Not being shaken, so the <i>else</i> part runs and shows a happy face.</p>
-      <div class="controls"><button class="btn primary" id="shakeBtn">Shake it</button></div>
-    </div>
-  </div>
-  <div class="explain">
-    <div class="panel">
-      <h3>What the blocks say, in plain English</h3>
-      <ol class="plain">
-        <li><span class="b" style="--c:var(--b-basic)">forever</span> Keep checking again and again, without stopping.</li>
-        <li><span class="b" style="--c:var(--b-logic)">if is shake gesture then</span> Ask: is someone shaking me? If <b>yes</b>:</li>
-        <li><span class="b" style="--c:var(--b-basic)">show icon (sad)</span> Show a sad face.</li>
-        <li><span class="b" style="--c:var(--b-logic)">else</span> If the answer is <b>no</b>:</li>
-        <li><span class="b" style="--c:var(--b-basic)">show icon (happy)</span> Show a happy face.</li>
-      </ol>
-    </div>
-    <div class="panel">
-      <h3>Try this</h3>
-      <ul>
-        <li>Tap <b>Shake it</b>. The board wobbles and the face turns sad. The yellow line moves to the top part of the code.</li>
-        <li>Wait a moment. The shaking stops, the answer becomes "no", and the happy face comes back.</li>
-      </ul>
-      <p class="analogy">An everyday example: "<b>If</b> it is raining, take an umbrella. <b>Else</b> (otherwise), take sunglasses." You only do one of the two. The book calls this <b>selection</b>, because the computer selects (chooses) what to do.</p>
-      <p class="muted">The book also uses the words <b>True</b> (means yes) and <b>False</b> (means no).</p>
-    </div>
-  </div>
-  <div class="panel quiz" data-quiz="shake"><h3>Quick quiz</h3><p class="muted">Tap the answer you think is right. Green means correct.</p></div>
-</section>
-
-<!-- LESSON 3 -->
-<section class="lesson" id="repeat" role="tabpanel" aria-labelledby="tab-repeat" hidden>
-  <div class="lesson-head">
-    <span class="eyebrow">Lesson 3 · "Now try this" page · Topic: loops (iteration)</span>
-    <h2>Press B and the arrow flashes 4 times</h2>
-    <p class="muted">Instead of writing the same instructions 4 times, the program says "repeat 4 times". Each time, it shows the arrow, waits a moment, turns the lights off and waits again. That's what makes it flash.</p>
-  </div>
-  <div class="stage">
-    <div class="panel">
-      <span class="panel-label">The code, as it looks in the book</span>
-      <div class="code">
-        <div class="hat" style="--c:var(--b-input)" id="r-event">
-          <div class="title">on <span class="pill dd">button B</span> pressed</div>
-          <div class="body">
-            <div class="hat" style="--c:var(--b-loop)" id="r-repeat">
-              <div class="title">repeat <span class="num" id="r-n">4</span> times</div>
-              <div class="body">
-                <span class="blk" style="--c:var(--b-basic)" id="r-show">show leds <span class="mini-leds" data-icon="arrow"></span></span>
-                <span class="blk" style="--c:var(--b-basic)" id="r-p1">pause (ms) <span class="num dd">200</span></span>
-                <span class="blk" style="--c:var(--b-basic)" id="r-clear">clear screen</span>
-                <span class="blk" style="--c:var(--b-basic)" id="r-p2">pause (ms) <span class="num dd">200</span></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel boardwrap">
-      <span class="panel-label">Pretend micro:bit</span>
-      <p class="doit">Tap the B button on the right of the board</p>
-      <div class="mb" id="mb3"></div>
-      <div class="status"><span class="chip" id="loopChip">Waiting for button B</span></div>
-      <p class="log" id="log3" aria-live="polite">Nothing happens until you tap B. The program is waiting, like a doorbell.</p>
-      <div class="controls">
-        <label class="inline" for="times">Repeat
-          <input type="number" id="times" min="1" max="9" value="4"> times</label>
-        <label class="inline" for="slow"><input type="checkbox" id="slow"> Slow motion</label>
-      </div>
-    </div>
-  </div>
-  <div class="explain">
-    <div class="panel">
-      <h3>What the blocks say, in plain English</h3>
-      <ol class="plain">
-        <li><span class="b" style="--c:var(--b-input)">on button B pressed</span> Wait until someone presses button B. Then:</li>
-        <li><span class="b" style="--c:var(--b-loop)">repeat 4 times</span> Do the next 4 steps, 4 times over:</li>
-        <li><span class="b" style="--c:var(--b-basic)">show leds</span> Light up the arrow picture.</li>
-        <li><span class="b" style="--c:var(--b-basic)">pause (ms) 200</span> Wait a moment. 200 ms means a fifth of a second.</li>
-        <li><span class="b" style="--c:var(--b-basic)">clear screen</span> Turn all the lights off.</li>
-        <li><span class="b" style="--c:var(--b-basic)">pause (ms) 200</span> Wait a moment again.</li>
-      </ol>
-    </div>
-    <div class="panel">
-      <h3>Try this</h3>
-      <ul>
-        <li>Tap B and count the flashes. You should count 4.</li>
-        <li>Tick <b>Slow motion</b> to see each step clearly.</li>
-        <li>Change the number 4 to 2 or 7, then tap B again. It flashes that many times.</li>
-        <li>Tap A. Nothing happens, because the program only waits for B.</li>
-      </ul>
-      <p class="analogy">An everyday example: instead of saying "clap, clap, clap, clap", you say "clap 4 times". The book calls this a <b>loop</b> or <b>iteration</b>.</p>
-    </div>
-  </div>
-  <div class="panel quiz" data-quiz="repeat"><h3>Quick quiz</h3><p class="muted">Tap the answer you think is right. Green means correct.</p></div>
-</section>
-
-<footer>To try the real thing, the book uses MakeCode at <b>makecode.microbit.org</b>. The blocks there look just like the ones on this page.</footer>
+  <main id="screen"></main>
+  <footer id="foot">Made to go with the computer book chapter "Computational thinking and programming".</footer>
 </div>
 
 <script>
-const ICONS = {
+const PICS = {
   sad:   [".....",".#.#.",".....",".###.","#...#"],
   happy: [".....",".#.#.",".....","#...#",".###."],
   arrow: ["..#..","...#.","#####","...#.","..#.."],
+  heart: [".#.#.","#####","#####",".###.","..#.."],
+  A:     [".##..","#..#.","####.","#..#.","#..#."],
+  B:     ["###..","#..#.","###..","#..#.","###.."],
+  three: ["####.","...#.","..#..","#..#.",".##.."],
   blank: [".....",".....",".....",".....","....."]
 };
 const FONT = {
@@ -400,197 +166,210 @@ const FONT = {
   "8":[".###.","#...#",".###.","#...#",".###."], "9":[".###.","#...#",".###.","..#..",".#..."]
 };
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+const center = rows => { const w = rows[0].length, l = Math.floor((5-w)/2); return rows.map(r => ".".repeat(l)+r+".".repeat(5-w-l)); };
+const pic = (name, w=64) => `<span class="pic" style="--w:${w}px">${PICS[name].join("").split("").map(c=>`<i class="${c==="#"?"on":""}"></i>`).join("")}</span>`;
 
-function center(rows){ // pad a glyph to 5 columns
-  const w = rows[0].length, l = Math.floor((5-w)/2);
-  return rows.map(r => ".".repeat(l) + r + ".".repeat(5-w-l));
-}
+let timers = []; let alive = 0;
+const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+function clearTimers(){ timers.forEach(clearTimeout); timers.forEach(clearInterval); timers = []; alive++; }
 
-function makeBoard(el, onA, onB){
-  el.innerHTML = `<button class="mbtn" aria-label="Button A"><b>A</b></button>
+function board(holder, onA, onB){
+  holder.style.cssText = "width:100%;display:flex;justify-content:center";
+  holder.innerHTML = `<div class="mb"><button class="mbtn" aria-label="Button A"><b>A</b></button>
     <div class="grid5">${'<span class="led"></span>'.repeat(25)}</div>
     <button class="mbtn" aria-label="Button B"><b>B</b></button>
-    <div class="pads"><span>0</span><span>1</span><span>2</span><span>3V</span><span class="wide">GND</span></div>`;
-  const leds = [...el.querySelectorAll(".led")];
-  const [a, b] = el.querySelectorAll(".mbtn");
-  a.addEventListener("click", () => onA && onA());
-  b.addEventListener("click", () => onB && onB());
-  let token = 0;
+    <div class="pads"><span>0</span><span>1</span><span>2</span><span>3V</span><span class="wide">GND</span></div></div>`;
+  const el = holder.firstElementChild, leds = [...el.querySelectorAll(".led")];
+  const [a,b] = el.querySelectorAll(".mbtn");
+  a.addEventListener("click", () => { a.classList.remove("hint"); onA && onA(); });
+  b.addEventListener("click", () => { b.classList.remove("hint"); onB && onB(); });
+  let tok = 0;
   const api = {
-    el,
+    el, a, b,
     show(rows){ rows.forEach((r,y)=>[...r].forEach((c,x)=>leds[y*5+x].classList.toggle("on", c==="#"))); },
-    clear(){ token++; api.show(ICONS.blank); },
-    async showNumber(n){
-      const s = String(n); const my = ++token;
-      if (s.length === 1){ api.show(center(FONT[s])); return; }
-      // build a wide strip and scroll it left, like the real micro:bit
-      let strip = [".....",".....",".....",".....","....."].map(()=> ".....");
-      for (const ch of s){ const g = FONT[ch]; strip = strip.map((r,i)=> r + g[i] + "."); }
+    clear(){ tok++; api.show(PICS.blank); },
+    async number(n){
+      const s = String(n), my = ++tok, life = alive;
+      if (s.length === 1) return api.show(center(FONT[s]));
+      let strip = Array(5).fill(".....");
+      for (const ch of s) strip = strip.map((r,i)=> r + FONT[ch][i] + ".");
       strip = strip.map(r => r + ".....");
-      for (let off=0; off <= strip[0].length-5; off++){
-        if (my !== token) return;
-        api.show(strip.map(r => r.slice(off, off+5)));
-        await sleep(110);
-      }
+      for (let o=0; o<=strip[0].length-5; o++){ if (my!==tok || life!==alive) return; api.show(strip.map(r=>r.slice(o,o+5))); await sleep(110); }
     }
   };
   return api;
 }
 
-async function pulse(ids, each=220){
-  for (const id of ids){
-    const el = document.getElementById(id); if(!el) continue;
-    el.classList.add("run"); await sleep(each); el.classList.remove("run");
-  }
-}
-
-/* mini icons inside blocks */
-document.querySelectorAll(".mini-leds").forEach(m => {
-  m.innerHTML = ICONS[m.dataset.icon].join("").split("").map(c=>`<i class="${c==="#"?"on":""}"></i>`).join("");
-});
-
-/* ---------- Lesson 1 ---------- */
-let count = 0, powered = true;
-const log1 = document.getElementById("log1"), vCount = document.getElementById("v-count");
-const mb1 = makeBoard(document.getElementById("mb1"), pressA1, pressB1);
-async function onStart(){
-  count = 0; vCount.textContent = 0; mb1.showNumber(0);
-  await pulse(["c-start","c-set0","c-show0"], 260);
-}
-async function pressA1(){
-  if (!powered){ log1.textContent = "The micro:bit has no power. Plug the battery back in first."; return; }
-  const before = count; count++; vCount.textContent = count;
-  log1.innerHTML = `You pressed A. The number in the Count box goes from ${before} to <b>${count}</b>.`;
-  mb1.showNumber(count);
-  await pulse(["c-if","c-inc","c-show"], 200);
-}
-async function pressB1(){
-  if (!powered) return;
-  log1.innerHTML = "You pressed B. The program only looks at button A, so nothing changes.";
-  await pulse(["c-if"], 300);
-}
-document.getElementById("unplug").addEventListener("click", async e => {
-  powered = !powered;
-  mb1.el.classList.toggle("off", !powered);
-  e.target.textContent = powered ? "Unplug battery" : "Plug battery back in";
-  if (!powered){ mb1.clear(); vCount.textContent = "–"; log1.textContent = "Switched off. The lights are dark and the number is forgotten."; }
-  else { log1.innerHTML = "Switched back on. The program is still saved, so it starts again from 0."; await onStart(); }
-});
-onStart();
-
-/* ---------- Lesson 2 ---------- */
-let shaking = false;
-const mb2 = makeBoard(document.getElementById("mb2"),
-  () => { log2.textContent = "This program doesn't use button A. Try the Shake it button instead."; },
-  () => { log2.textContent = "This program doesn't use button B. Try the Shake it button instead."; });
-const cond = document.getElementById("cond"), log2 = document.getElementById("log2");
-const sThen = document.getElementById("s-then"), sElse = document.getElementById("s-else");
-let lastState = null;
-setInterval(() => { // the "forever" loop
-  if (shaking === lastState) return; lastState = shaking;
-  mb2.show(shaking ? ICONS.sad : ICONS.happy);
-  cond.textContent = `Is it being shaken? ${shaking ? "YES (True)" : "NO (False)"}`;
-  cond.className = "chip " + (shaking ? "t" : "f");
-  sThen.classList.toggle("active-branch", shaking);
-  sElse.classList.toggle("active-branch", !shaking);
-  log2.innerHTML = shaking
-    ? "The answer is <b>yes</b>, so it shows the sad face."
-    : "The answer is <b>no</b>, so the <i>else</i> part works and it shows the happy face.";
-}, 100);
-document.getElementById("shakeBtn").addEventListener("click", async () => {
-  if (shaking) return;
-  shaking = true; mb2.el.classList.add("shaking");
-  await sleep(1500);
-  shaking = false; mb2.el.classList.remove("shaking");
-});
-
-/* ---------- Lesson 3 ---------- */
-let running = false;
-const timesIn = document.getElementById("times"), rN = document.getElementById("r-n");
-const chip = document.getElementById("loopChip"), log3 = document.getElementById("log3");
-timesIn.addEventListener("input", () => {
-  let v = Math.max(1, Math.min(9, parseInt(timesIn.value) || 1)); rN.textContent = v;
-});
-const mb3 = makeBoard(document.getElementById("mb3"),
-  () => { if(!running) log3.textContent = "Nothing happens with A. This program only waits for button B."; },
-  runLoop);
-async function runLoop(){
-  if (running) return; running = true;
-  const n = parseInt(rN.textContent), p = document.getElementById("slow").checked ? 900 : 200;
-  const on = id => document.getElementById(id).classList.add("run");
-  const off = id => document.getElementById(id).classList.remove("run");
-  on("r-event"); on("r-repeat");
-  log3.innerHTML = `You pressed B. The arrow will flash <b>${n}</b> times.`;
-  for (let i = 1; i <= n; i++){
-    chip.textContent = `Flash ${i} of ${n}`;
-    on("r-show"); mb3.show(ICONS.arrow); await sleep(p/3); off("r-show");
-    on("r-p1"); await sleep(p - p/3); off("r-p1");
-    on("r-clear"); mb3.clear(); await sleep(p/3); off("r-clear");
-    on("r-p2"); await sleep(p - p/3); off("r-p2");
-  }
-  off("r-event"); off("r-repeat");
-  chip.textContent = `Done: flashed ${n} times`;
-  log3.innerHTML = `Finished. It flashed ${n} times. Tap B to watch again.`;
-  running = false;
-}
-
-/* ---------- Tabs ---------- */
-const tabs = [...document.querySelectorAll('[role="tab"]')];
-function select(id){
-  tabs.forEach(t => { const on = t.getAttribute("aria-controls") === id; t.setAttribute("aria-selected", on); document.getElementById(t.getAttribute("aria-controls")).hidden = !on; });
-}
-tabs.forEach(t => t.addEventListener("click", () => { select(t.getAttribute("aria-controls")); try{ history.replaceState(null,"","#"+t.getAttribute("aria-controls")); }catch(e){} }));
-if (["count","shake","repeat"].includes(location.hash.slice(1))) select(location.hash.slice(1));
-
-/* ---------- Quizzes ---------- */
-const QUIZ = {
-  count: [
-    {q:"What input is being checked?", o:["Button A","Button B","Shaking","The screen"], a:0, e:"The if block asks “button A is pressed?”"},
-    {q:"What is the name of the variable?", o:["Number","Count","Start","Button"], a:1, e:"The red blocks set and read a variable called Count."},
-    {q:"What happens to Count when button A is pressed?", o:["It goes back to 0","It goes up by 1","It goes down by 1","Nothing"], a:1, e:"set Count to Count + 1 takes the old number and adds one."},
-    {q:"After starting, you press A three times. What is displayed?", o:["1","0","3","AAA"], a:2, e:"0 → 1 → 2 → 3."},
-    {q:"You unplug the battery and plug it back in. What shows?", o:["The last number","0","Nothing ever again","A sad face"], a:1, e:"The program stays saved, so on start runs again and sets Count to 0."}
-  ],
-  shake: [
-    {q:"What is the condition in this program?", o:["Is button A pressed?","Is the micro:bit being shaken?","Is it dark?","Is Count 0?"], a:1, e:"The pink block asks “is shake gesture”."},
-    {q:"The micro:bit is sitting still. Which face shows?", o:["Sad face","Happy face","No face","Both"], a:1, e:"Not shaking means False, so the else part runs: happy face."},
-    {q:"What does the else part do?", o:["Runs every time","Runs when the condition is False","Runs when it's True","Stops the program"], a:1, e:"else means “otherwise”: what to do when the answer is no."},
-    {q:"Why is the if block inside forever?", o:["So it is checked all the time","To make it faster","To show a number","It isn't needed"], a:0, e:"Without forever it would only check once, right at the start."}
-  ],
-  repeat: [
-    {q:"What makes this program start?", o:["Switching it on","Pressing button B","Shaking it","Pressing button A"], a:1, e:"on button B pressed is an event block. It waits for B."},
-    {q:"How many times does the arrow flash?", o:["1","2","4","200"], a:2, e:"The repeat block says 4 times."},
-    {q:"What would happen without the clear screen block?", o:["The arrow flashes faster","The arrow stays on, so it doesn't look like flashing","It shows a number","It shows a sad face"], a:1, e:"Clearing the screen between pauses is what makes the flash."},
-    {q:"Why use a repeat block?", o:["To save writing the same blocks 4 times","To make a variable","To check a button","To play music"], a:0, e:"That's iteration: repeat instructions without copying them."}
+/* ---------- the lessons, one screen at a time ---------- */
+const LESSONS = [
+{
+  name:"Meet the micro:bit", sub:"Start here", icon:"heart",
+  steps:[
+    { title:"This is a micro:bit", say:"It is a <b>tiny computer</b>.<br>It is small, like a biscuit.",
+      view(v){ const m = board(v); m.show(PICS.heart); } },
+    { title:"It has 2 buttons", say:"One is called <b>A</b>.<br>One is called <b>B</b>.<br>Tap them!",
+      view(v, msg){ const m = board(v, ()=>{ m.show(PICS.A); msg("You tapped A!"); }, ()=>{ m.show(PICS.B); msg("You tapped B!"); });
+        m.a.classList.add("hint"); m.b.classList.add("hint"); } },
+    { title:"It has little red lights", say:"There are <b>25 lights</b>.<br>The lights can make pictures and numbers.",
+      view(v){ const m = board(v); const seq=["heart","happy","three","arrow"]; let i=0; m.show(PICS.heart);
+        timers.push(setInterval(()=>{ i=(i+1)%seq.length; m.show(PICS[seq[i]]); }, 1100)); } },
+    { title:"We tell it what to do", say:"We use <b>coloured blocks</b>.<br>Each block is one job.<br>Tap the blue block.",
+      view(v, msg){ v.innerHTML = `<button class="blk tap hint" style="--c:var(--b-basic)" id="blk">show icon ${pic("heart",36)}</button><div id="b"></div>`;
+        const m = board(v.querySelector("#b")); const blk = v.querySelector("#blk");
+        blk.addEventListener("click", ()=>{ blk.classList.remove("hint"); m.show(PICS.heart); msg("The block told it to show a heart!"); }); } },
+    { title:"That's all!", say:"A list of blocks is called a <b>program</b>.<br>Now let's learn the 3 programs from the book.",
+      view(v){ v.innerHTML = `<div class="star">★</div>`; } }
   ]
-};
-document.querySelectorAll("[data-quiz]").forEach(box => {
-  const qs = QUIZ[box.dataset.quiz]; let right = 0, done = 0;
-  const score = document.createElement("p"); score.className = "score";
-  qs.forEach((item, qi) => {
-    const d = document.createElement("div"); d.className = "q";
-    d.innerHTML = `<div class="prompt">${qi+1}. ${item.q}</div><div class="opts"></div><div class="fb" aria-live="polite"></div>`;
-    const opts = d.querySelector(".opts"), fb = d.querySelector(".fb");
-    let answered = false;
-    item.o.forEach((txt, oi) => {
-      const b = document.createElement("button"); b.textContent = txt; b.id = `q-${box.dataset.quiz}-${qi}-${oi}`;
-      b.addEventListener("click", () => {
-        if (oi === item.a){
-          b.classList.add("right"); fb.textContent = "Correct. " + item.e;
-          if (!answered){ right++; }
-          if (!answered){ answered = true; done++; }
-        } else {
-          b.classList.add("wrong"); fb.textContent = "Not quite. Try another answer.";
-          if (!answered){ answered = true; done++; }
-        }
-        score.textContent = `Score: ${right} of ${qs.length} right first time` + (done === qs.length ? "" : ` · ${qs.length-done} to go`);
-      });
-      opts.appendChild(b);
-    });
-    box.appendChild(d);
-  });
-  box.appendChild(score);
-});
+},
+{
+  name:"Counting", sub:"Book page 112", icon:"three", word:"Variable = a box with a number inside",
+  steps:[
+    { title:"A box for a number", say:"The computer has a <b>box</b>.<br>The box is called <b>Count</b>.<br>Inside it is <b>0</b>.",
+      view(v){ v.innerHTML = `<div class="box"><span class="label">Count</span><output>0</output></div>`; } },
+    { title:"Tap A", say:"Every time you tap <b>A</b>,<br>the box gets <b>1 more</b>.",
+      view(v, msg){
+        v.innerHTML = `<div class="box"><span class="label">Count</span><output id="n">0</output></div><div id="b"></div>`;
+        let c = 0; const out = v.querySelector("#n");
+        const m = board(v.querySelector("#b"), ()=>{ c++; out.textContent=c; m.number(c); msg(`Now the box has ${c}.`); },
+                                               ()=>{ msg("That's B. This game only uses A."); });
+        m.number(0); m.a.classList.add("hint"); } },
+    { title:"Switch off, switch on", say:"When it is switched off, it forgets the number.<br>Switch it on and it starts again at <b>0</b>.",
+      view(v, msg){
+        v.innerHTML = `<div class="box"><span class="label">Count</span><output id="n">5</output></div><div id="b"></div><button class="big-btn hint" id="p">Switch off</button>`;
+        const out = v.querySelector("#n"), btn = v.querySelector("#p"); let on = true;
+        const m = board(v.querySelector("#b")); m.number(5);
+        btn.addEventListener("click", ()=>{ btn.classList.remove("hint"); on=!on; m.el.classList.toggle("off",!on);
+          if(!on){ m.clear(); out.textContent="?"; btn.textContent="Switch on"; msg("Off. The lights are dark."); }
+          else { out.textContent="0"; m.number(0); btn.textContent="Switch off"; msg("On again. It starts at 0."); } }); } },
+    { title:"In the book", say:"This is what the blocks mean.",
+      view(v){ v.innerHTML = `<div class="meaning">
+        <div class="row"><span class="blk" style="--c:var(--b-basic)">on start</span><span class="eq">=</span><span class="w">When it switches on</span></div>
+        <div class="row"><span class="blk" style="--c:var(--b-var)">set <span class="pill">Count</span> to <span class="num">0</span></span><span class="eq">=</span><span class="w">Put 0 in the box</span></div>
+        <div class="row"><span class="blk" style="--c:var(--b-logic)">if <span class="pill">button A</span> is pressed</span><span class="eq">=</span><span class="w">When you tap A</span></div>
+        <div class="row"><span class="blk" style="--c:var(--b-var)">set <span class="pill">Count</span> to Count + <span class="num">1</span></span><span class="eq">=</span><span class="w">Add 1 more</span></div>
+        <div class="row"><span class="blk" style="--c:var(--b-basic)">show number <span class="pill">Count</span></span><span class="eq">=</span><span class="w">Show the number</span></div></div>`; } },
+    { title:"Quiz time", say:"You tap A <b>3 times</b>.<br>What number do you see?",
+      quiz:{ options:[{t:"0"},{t:"3"},{t:"5"}], right:1, yes:"Yes! 1, 2, 3.", no:"Try again. Count the taps: 1, 2, 3." } },
+    { title:"Quiz time", say:"What is the name of the box?",
+      quiz:{ options:[{t:"A"},{t:"Count"},{t:"Light"}], right:1, yes:"Yes! The box is called Count.", no:"Try again. Look at the label on the box." } }
+  ]
+},
+{
+  name:"Happy or sad face", sub:"Book page 110", icon:"happy", word:"Selection = choosing: if yes do this, if no do that",
+  steps:[
+    { title:"It asks a question", say:"The micro:bit keeps asking:<br><b>\"Is someone shaking me?\"</b>",
+      view(v){ v.innerHTML = `<div class="star" style="color:var(--accent)">?</div>`; } },
+    { title:"Yes or no", say:"If <b>yes</b>, it shows a sad face.<br>If <b>no</b>, it shows a happy face.",
+      view(v){ v.innerHTML = `<div class="choice"><div class="opt">${pic("sad",80)}<b>YES</b><span>being shaken</span></div><div class="opt">${pic("happy",80)}<b>NO</b><span>sitting still</span></div></div>`; } },
+    { title:"Try it", say:"Tap the yellow <b>Shake</b> button.",
+      view(v, msg){
+        v.innerHTML = `<div class="choice"><div class="opt" id="y">${pic("sad",56)}<b>YES</b></div><div class="opt lit" id="n">${pic("happy",56)}<b>NO</b></div></div><div id="b"></div><button class="big-btn hint" id="s">Shake</button>`;
+        const m = board(v.querySelector("#b"), ()=>msg("This game does not use A. Tap Shake."), ()=>msg("This game does not use B. Tap Shake."));
+        const y = v.querySelector("#y"), n = v.querySelector("#n"), s = v.querySelector("#s"); const life = alive;
+        m.show(PICS.happy); let busy = false;
+        s.addEventListener("click", async ()=>{ if(busy) return; busy=true; s.classList.remove("hint");
+          m.el.classList.add("shaking"); m.show(PICS.sad); y.classList.add("lit"); n.classList.remove("lit"); msg("Yes, it is shaking. Sad face.");
+          await sleep(1600); if(life!==alive) return;
+          m.el.classList.remove("shaking"); m.show(PICS.happy); n.classList.add("lit"); y.classList.remove("lit"); msg("No more shaking. Happy face."); busy=false; }); } },
+    { title:"Like every day", say:"<b>If</b> it is raining, take an umbrella.<br><b>Else</b> (if not), take sunglasses.<br>You choose one.",
+      view(v){ v.innerHTML = `<div class="choice"><div class="opt"><b>Raining?</b><span>YES → umbrella</span></div><div class="opt"><b>Raining?</b><span>NO → sunglasses</span></div></div>`; } },
+    { title:"In the book", say:"This is what the blocks mean.",
+      view(v){ v.innerHTML = `<div class="meaning">
+        <div class="row"><span class="blk" style="--c:var(--b-basic)">forever</span><span class="eq">=</span><span class="w">Keep asking, again and again</span></div>
+        <div class="row"><span class="blk" style="--c:var(--b-logic)">if <span class="pill">is shake gesture</span> then</span><span class="eq">=</span><span class="w">Is it shaking? If yes…</span></div>
+        <div class="row"><span class="blk" style="--c:var(--b-basic)">show icon ${pic("sad",34)}</span><span class="eq">=</span><span class="w">…show the sad face</span></div>
+        <div class="row"><span class="blk" style="--c:var(--b-logic)">else</span><span class="eq">=</span><span class="w">If no…</span></div>
+        <div class="row"><span class="blk" style="--c:var(--b-basic)">show icon ${pic("happy",34)}</span><span class="eq">=</span><span class="w">…show the happy face</span></div></div>
+        <p class="say" style="font-size:1.15rem">The book says <b>True</b> for yes and <b>False</b> for no.</p>`; } },
+    { title:"Quiz time", say:"Nobody is shaking it.<br>Which face do you see?",
+      quiz:{ options:[{t:"Sad", p:"sad"},{t:"Happy", p:"happy"}], right:1, yes:"Yes! No shaking means a happy face.", no:"Try again. Sad is only when it shakes." } }
+  ]
+},
+{
+  name:"Flashing arrow", sub:"Book: \"Now try this\"", icon:"arrow", word:"Loop (iteration) = doing the same thing again and again",
+  steps:[
+    { title:"Again and again", say:"\"Clap, clap, clap, clap\"<br>is the same as<br><b>\"Clap 4 times\"</b>.",
+      view(v){ v.innerHTML = `<div class="counter"><span class="on">1</span><span class="on">2</span><span class="on">3</span><span class="on">4</span></div>`; } },
+    { title:"Show the arrow 4 times", say:"The micro:bit shows an arrow, then turns it off.<br>It does this <b>4 times</b>.",
+      view(v){ v.innerHTML = `<div class="equals">${pic("arrow",56)} ${pic("blank",56)} <span>× 4</span></div>`; } },
+    { title:"Tap B", say:"Tap <b>B</b> and count the flashes.",
+      view(v, msg){
+        v.innerHTML = `<div class="counter" id="c"><span>1</span><span>2</span><span>3</span><span>4</span></div><div id="b"></div>`;
+        const dots = [...v.querySelectorAll("#c span")]; let busy=false; const life = alive;
+        const m = board(v.querySelector("#b"), ()=>msg("That's A. This game uses B."), async ()=>{
+          if(busy) return; busy=true; dots.forEach(d=>d.classList.remove("on")); msg("");
+          for(let i=0;i<4;i++){ if(life!==alive) return; m.show(PICS.arrow); dots[i].classList.add("on"); msg(`Flash ${i+1}`); await sleep(500); m.clear(); await sleep(400); }
+          if(life!==alive) return; msg("4 flashes! Tap B to see it again."); busy=false; });
+        m.b.classList.add("hint"); } },
+    { title:"In the book", say:"This is what the blocks mean.",
+      view(v){ v.innerHTML = `<div class="meaning">
+        <div class="row"><span class="blk" style="--c:var(--b-input)">on <span class="pill">button B</span> pressed</span><span class="eq">=</span><span class="w">When you tap B</span></div>
+        <div class="row"><span class="blk" style="--c:var(--b-loop)">repeat <span class="num">4</span> times</span><span class="eq">=</span><span class="w">Do this 4 times</span></div>
+        <div class="row"><span class="blk" style="--c:var(--b-basic)">show leds ${pic("arrow",34)}</span><span class="eq">=</span><span class="w">Show the arrow</span></div>
+        <div class="row"><span class="blk" style="--c:var(--b-basic)">pause (ms) <span class="num">200</span></span><span class="eq">=</span><span class="w">Wait a tiny moment</span></div>
+        <div class="row"><span class="blk" style="--c:var(--b-basic)">clear screen</span><span class="eq">=</span><span class="w">Turn the lights off</span></div></div>`; } },
+    { title:"Quiz time", say:"How many times does the arrow flash?",
+      quiz:{ options:[{t:"1"},{t:"4"},{t:"10"}], right:1, yes:"Yes! The block says repeat 4 times.", no:"Try again. Look at the number in the green block." } }
+  ]
+}];
+
+/* ---------- screens ---------- */
+const screen = document.getElementById("screen"), dotsEl = document.getElementById("dots"), homeBtn = document.getElementById("homeBtn");
+homeBtn.addEventListener("click", home);
+
+function home(){
+  clearTimers(); homeBtn.hidden = true; dotsEl.innerHTML = "";
+  screen.innerHTML = `<div style="display:flex;flex-direction:column;gap:18px">
+    <h1>micro:bit lessons</h1>
+    <p class="say" style="font-size:1.3rem">Tap a lesson to start. Start with number 1.</p>
+    <div class="tiles">${LESSONS.map((l,i)=>`<button class="tile ${i===0?"first":""}" data-i="${i}">${pic(l.icon,72)}
+      <span><span class="t">${i+1}. ${l.name}</span><br><span class="s">${l.sub}</span></span><span class="go">›</span></button>`).join("")}</div></div>`;
+  screen.querySelectorAll(".tile").forEach(t => t.addEventListener("click", ()=>show(+t.dataset.i, 0)));
+  window.scrollTo(0,0);
+}
+
+function show(li, si){
+  clearTimers(); homeBtn.hidden = false;
+  const L = LESSONS[li], S = L.steps[si], last = si === L.steps.length;
+  const total = L.steps.length + 1;
+  dotsEl.innerHTML = Array.from({length:total},(_,i)=>`<i class="${i===si?"on":i<si?"done":""}"></i>`).join("");
+  if (last) return finish(li);
+  screen.innerHTML = `<section class="card" aria-live="polite">
+      ${L.word ? `<span class="bookword">Lesson ${li+1}: ${L.name}</span>` : `<span class="bookword">Start here</span>`}
+      <h2>${S.title}</h2><p class="say">${S.say}</p>
+      <div id="view" style="display:flex;flex-direction:column;align-items:center;gap:18px;width:100%"></div>
+      <p class="msg" id="msg"></p></section>
+    <div class="nav"><button id="back" ${si===0?"disabled":""}>‹ Back</button><button class="next" id="next">Next ›</button></div>`;
+  const msgEl = screen.querySelector("#msg"), msg = t => msgEl.textContent = t;
+  const v = screen.querySelector("#view");
+  if (S.view) S.view(v, msg);
+  if (S.quiz) quiz(v, S.quiz, msg);
+  screen.querySelector("#back").addEventListener("click", ()=>show(li, si-1));
+  screen.querySelector("#next").addEventListener("click", ()=>show(li, si+1));
+  window.scrollTo(0,0);
+}
+
+function quiz(v, q, msg){
+  v.innerHTML = `<div class="answers">${q.options.map((o,i)=>`<button class="ans" data-i="${i}">${o.p?pic(o.p,64):""}${o.p?`<small>${o.t}</small>`:o.t}</button>`).join("")}</div>`;
+  v.querySelectorAll(".ans").forEach(b => b.addEventListener("click", ()=>{
+    const i = +b.dataset.i;
+    if (i === q.right){ b.classList.add("right"); msg(q.yes); } else { b.classList.add("wrong"); msg(q.no); }
+  }));
+}
+
+function finish(li){
+  const L = LESSONS[li], nextL = LESSONS[li+1];
+  screen.innerHTML = `<section class="card"><div class="star">★</div><h2>Well done!</h2>
+      ${L.word ? `<p class="say">The new book word:</p><p class="say"><b>${L.word}</b></p>` : `<p class="say">You met the micro:bit.</p>`}
+    </section>
+    <div class="nav"><button id="back">‹ Back</button>
+      ${nextL ? `<button class="next" id="next">Next lesson ›</button>` : `<button class="next" id="next">All lessons</button>`}</div>`;
+  screen.querySelector("#back").addEventListener("click", ()=>show(li, L.steps.length-1));
+  screen.querySelector("#next").addEventListener("click", ()=> nextL ? show(li+1,0) : home());
+  window.scrollTo(0,0);
+}
+
+home();
 </script>
 </body>
 </html>
