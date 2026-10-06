@@ -29,7 +29,7 @@
 
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg); color:var(--ink); font:16px/1.6 var(--f-body); padding-inline:16px; padding-block:24px 64px}
+body{background:var(--bg); color:var(--ink); font:17px/1.65 var(--f-body); padding-inline:16px; padding-block:24px 64px}
 .wrap{max-width:1040px; margin:0 auto; display:flex; flex-direction:column; gap:28px}
 h1,h2,h3{font-family:var(--f-display); line-height:1.15; margin:0; text-wrap:balance}
 h1{font-size:clamp(2rem,5vw,2.9rem); font-weight:800; letter-spacing:-.01em}
@@ -50,8 +50,15 @@ header.intro{display:flex; flex-direction:column; gap:10px}
 
 /* tabs */
 nav.tabs{display:flex; flex-wrap:wrap; gap:8px; position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--bg); padding-block:8px}
-nav.tabs button{font:700 .95rem var(--f-body); color:var(--ink); background:var(--surface); border:1px solid var(--line); border-radius:999px; padding:8px 16px; cursor:pointer; display:flex; gap:8px; align-items:center}
-nav.tabs button .n{font-family:var(--f-code); font-size:.8rem; color:var(--muted)}
+nav.tabs{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+nav.tabs button{font:700 1.05rem var(--f-body); color:var(--ink); background:var(--surface); border:2px solid var(--line); border-radius:14px; padding:12px 16px; cursor:pointer; display:flex; flex-direction:column; gap:2px; align-items:flex-start; text-align:left}
+nav.tabs button .n{font-size:.82rem; font-weight:600; color:var(--muted)}
+.start{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px}
+.steps{margin:0; padding-left:22px; display:flex; flex-direction:column; gap:8px}
+.yellow{background:var(--run); color:#1a2333; border-radius:4px; padding:0 5px; font-weight:700}
+.plain{margin:0; padding-left:22px; display:flex; flex-direction:column; gap:10px}
+.plain li span.b{font:500 .82rem var(--f-code); color:#fff; background:var(--c); border-radius:5px; padding:2px 7px; white-space:nowrap}
+.doit{background:var(--accent-soft); border-radius:10px; padding:10px 14px; font-weight:700; text-align:center; max-width:36ch}
 nav.tabs button[aria-selected="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
 nav.tabs button[aria-selected="true"] .n{color:#dfe7ff}
 button:focus-visible{outline:3px solid var(--run); outline-offset:2px}
@@ -91,7 +98,7 @@ button:focus-visible{outline:3px solid var(--run); outline-offset:2px}
 .grid5{display:grid; grid-template-columns:repeat(5,1fr); gap:9%; width:72%; justify-self:center}
 .led{aspect-ratio:1; border-radius:3px; background:var(--led-off); transition:background .05s}
 .led.on{background:var(--led-on); box-shadow:0 0 10px 2px rgba(255,61,46,.65)}
-.mbtn{width:44px; height:44px; border-radius:8px; background:#3a4152; border:2px solid #5a6276; display:grid; place-items:center; cursor:pointer; padding:0; position:relative}
+.mbtn{width:52px; height:52px; border-radius:8px; background:#3a4152; border:2px solid #5a6276; display:grid; place-items:center; cursor:pointer; padding:0; position:relative}
 .mbtn::before{content:""; width:24px; height:24px; border-radius:50%; background:#11141b; box-shadow:inset 0 -2px 0 #000}
 .mbtn:active::before,.mbtn.pressed::before{transform:scale(.88); background:#000}
 .mbtn b{position:absolute; top:-20px; left:50%; transform:translateX(-50%); color:var(--pad); font:800 13px var(--f-display)}
@@ -100,7 +107,7 @@ button:focus-visible{outline:3px solid var(--run); outline-offset:2px}
 @media (prefers-reduced-motion: reduce){ .mb.shaking{animation:none; outline:3px dashed var(--run)} }
 
 .controls{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; align-items:center}
-.btn{font:700 .95rem var(--f-body); border-radius:10px; padding:9px 16px; cursor:pointer; border:1px solid var(--line); background:var(--surface); color:var(--ink)}
+.btn{font:700 1.05rem var(--f-body); border-radius:12px; padding:12px 20px; cursor:pointer; border:1px solid var(--line); background:var(--surface); color:var(--ink)}
 .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
 .btn:disabled{opacity:.5; cursor:not-allowed}
 label.inline{display:flex; gap:8px; align-items:center; font-weight:600; font-size:.95rem}
@@ -139,39 +146,56 @@ footer{color:var(--muted); font-size:.9rem}
 <div class="wrap">
 
 <header class="intro">
-  <span class="eyebrow">Computational thinking and programming</span>
+  <span class="eyebrow">For parents · Computer class chapter</span>
   <h1>micro:bit Practice Lab</h1>
-  <p>These are the three programs from the textbook pages, rebuilt so you can try them here. Press the buttons on the pretend micro:bit and watch the yellow outline move through the code. It shows which block is running at that moment. You don't need a real micro:bit.</p>
+  <p>This page explains the three programs in your child's computer book, in simple words. You don't need to know anything about computers to use it.</p>
 </header>
 
+<section class="start" aria-labelledby="start-h">
+  <div class="panel">
+    <h3 id="start-h">What is a micro:bit?</h3>
+    <p>It is a very small computer, about the size of a bank card. It has <b>2 buttons</b> (called A and B) and <b>25 tiny red lights</b> that can show numbers and pictures.</p>
+    <p>Children tell it what to do by joining <b>coloured blocks</b> together, a bit like LEGO. Each block is one instruction. This is called a <b>program</b>.</p>
+  </div>
+  <div class="panel">
+    <h3>How to use this page</h3>
+    <ol class="steps">
+      <li>Pick a lesson using the three big buttons below. They match the pages in the book.</li>
+      <li>Tap the <b>A</b> or <b>B</b> button on the pretend micro:bit (the black board).</li>
+      <li>Watch the lights change. A <span class="yellow">yellow line</span> appears around the block that is working at that moment.</li>
+      <li>Answer the questions at the bottom. They are like the ones in the book.</li>
+    </ol>
+  </div>
+</section>
+
 <section aria-labelledby="gloss-h" style="display:flex;flex-direction:column;gap:10px">
-  <h3 id="gloss-h">Words you'll see in the book</h3>
+  <h3 id="gloss-h">Book words in simple English</h3>
   <div class="gloss">
-    <div class="term"><b>Input</b><span>Something the micro:bit notices: a button press or a shake.</span></div>
-    <div class="term"><b>Output</b><span>Something it does back, like lighting up its 25 LEDs.</span></div>
-    <div class="term"><b>Variable</b><span>A named box that holds a value that can change, like a score.</span></div>
-    <div class="term"><b>Selection</b><span>Choosing what to do with <i>if… then… else</i>.</span></div>
-    <div class="term"><b>Iteration</b><span>Repeating steps. Also called a loop.</span></div>
-    <div class="term"><b>Event</b><span>A block that waits for something to happen, like <i>on button B pressed</i>.</span></div>
+    <div class="term"><b>Input</b><span>What goes <i>in</i>. The micro:bit notices you pressing a button or shaking it.</span></div>
+    <div class="term"><b>Output</b><span>What comes <i>out</i>. The lights show a number or a face.</span></div>
+    <div class="term"><b>Variable</b><span>A box with a name that keeps a number, like a score in a game. The number can change.</span></div>
+    <div class="term"><b>Selection (if / else)</b><span>Making a choice. <i>If</i> something is true, do this. Otherwise (<i>else</i>), do that.</span></div>
+    <div class="term"><b>Iteration (loop)</b><span>Doing the same thing again and again, like "clap 4 times".</span></div>
+    <div class="term"><b>Event</b><span>Waiting for something to happen, like a doorbell waiting to be pressed.</span></div>
   </div>
 </section>
 
 <nav class="tabs" role="tablist" aria-label="Lessons">
-  <button role="tab" id="tab-count" aria-controls="count" aria-selected="true"><span class="n">p.112</span>Variables</button>
-  <button role="tab" id="tab-shake" aria-controls="shake" aria-selected="false"><span class="n">p.110</span>If / else</button>
-  <button role="tab" id="tab-repeat" aria-controls="repeat" aria-selected="false"><span class="n">Now try this</span>Loops</button>
+  <button role="tab" id="tab-count" aria-controls="count" aria-selected="true">1. Counting<span class="n">book page 112</span></button>
+  <button role="tab" id="tab-shake" aria-controls="shake" aria-selected="false">2. Happy or sad face<span class="n">book page 110</span></button>
+  <button role="tab" id="tab-repeat" aria-controls="repeat" aria-selected="false">3. Flashing arrow<span class="n">"Now try this"</span></button>
 </nav>
 
 <!-- LESSON 1 -->
 <section class="lesson" id="count" role="tabpanel" aria-labelledby="tab-count">
   <div class="lesson-head">
-    <span class="eyebrow">Lesson 1 · Programming task 1</span>
-    <h2>Counting button presses with a variable</h2>
-    <p class="muted">The program keeps a number called <b>Count</b>. Each time button A is pressed, Count goes up by 1 and the new number appears on the screen.</p>
+    <span class="eyebrow">Lesson 1 · Book page 112 · Topic: variables</span>
+    <h2>Counting how many times button A is pressed</h2>
+    <p class="muted">Think of a cricket scoreboard. It starts at 0, and every time a run is scored, the number goes up by one. This program does the same thing with button A.</p>
   </div>
   <div class="stage">
     <div class="panel">
-      <span class="panel-label">The code (same as the book)</span>
+      <span class="panel-label">The code, as it looks in the book</span>
       <div class="code">
         <div class="hat" style="--c:var(--b-basic)" id="c-start">
           <div class="title">on start</div>
@@ -196,9 +220,10 @@ footer{color:var(--muted); font-size:.9rem}
     </div>
     <div class="panel boardwrap">
       <span class="panel-label">Pretend micro:bit</span>
+      <p class="doit">Tap the A button on the left of the board a few times</p>
       <div class="mb" id="mb1"></div>
       <div class="varbox"><div class="box"><small>Count</small><output id="v-count">0</output></div></div>
-      <p class="log" id="log1" aria-live="polite">The program has started. <i>on start</i> set Count to 0. Press button A.</p>
+      <p class="log" id="log1" aria-live="polite">The micro:bit is switched on, so Count starts at 0. Now tap button A.</p>
       <div class="controls">
         <button class="btn" id="unplug">Unplug battery</button>
       </div>
@@ -206,33 +231,40 @@ footer{color:var(--muted); font-size:.9rem}
   </div>
   <div class="explain">
     <div class="panel">
-      <h3>In everyday words</h3>
-      <p class="analogy">It works like a tally counter at a door. When the program starts, you set the counter to zero. Every time someone walks in (button A), you click it once and read the new number.</p>
-      <p><b>on start</b> runs one time, when the micro:bit is switched on. <b>forever</b> keeps repeating, checking again and again whether button A is being pressed.</p>
+      <h3>What the blocks say, in plain English</h3>
+      <ol class="plain">
+        <li><span class="b" style="--c:var(--b-basic)">on start</span> When the micro:bit is switched on, do these things <b>once</b>:</li>
+        <li><span class="b" style="--c:var(--b-var)">set Count to 0</span> Make a box called "Count" and put 0 in it.</li>
+        <li><span class="b" style="--c:var(--b-basic)">show number Count</span> Show that number on the lights.</li>
+        <li><span class="b" style="--c:var(--b-basic)">forever</span> Then keep doing the next part again and again, without stopping:</li>
+        <li><span class="b" style="--c:var(--b-logic)">if button A is pressed</span> Is someone pressing button A? If yes:</li>
+        <li><span class="b" style="--c:var(--b-var)">set Count to Count + 1</span> Add 1 to the number in the box.</li>
+        <li><span class="b" style="--c:var(--b-basic)">show number Count</span> Show the new number.</li>
+      </ol>
     </div>
     <div class="panel">
-      <h3>Things to try</h3>
+      <h3>Try this</h3>
       <ul>
-        <li>Press A three times. Does the screen show 3, as your daughter predicted in the book?</li>
-        <li>Press B. Nothing happens, because the code only checks button A.</li>
-        <li>Count past 9. Real micro:bits scroll bigger numbers across the screen, and so does this one.</li>
-        <li>Unplug the battery, then plug it back in. The program is still saved, but Count starts again at 0 because <i>on start</i> runs again.</li>
+        <li>Tap A three times. You should see <b>3</b>. That is the answer to question 4 in the book.</li>
+        <li>Tap B. Nothing happens, because the program only looks at button A.</li>
+        <li>Tap the <b>Unplug battery</b> button, then plug it back in. The number goes back to 0. The program is still saved inside, but it starts again from the beginning.</li>
       </ul>
+      <p class="analogy">The word <b>variable</b> just means a box with a name that holds a number that can change. Here the box is called Count.</p>
     </div>
   </div>
-  <div class="panel quiz" data-quiz="count"><h3>Check your understanding</h3></div>
+  <div class="panel quiz" data-quiz="count"><h3>Quick quiz</h3><p class="muted">Tap the answer you think is right. Green means correct.</p></div>
 </section>
 
 <!-- LESSON 2 -->
 <section class="lesson" id="shake" role="tabpanel" aria-labelledby="tab-shake" hidden>
   <div class="lesson-head">
-    <span class="eyebrow">Lesson 2 · Selection</span>
-    <h2>If it's shaken, show a sad face. Else, a happy face</h2>
-    <p class="muted">An <b>if… then… else</b> block asks a yes/no question, called a <b>condition</b>. If the answer is yes (True), it runs the top part. If the answer is no (False), it runs the <i>else</i> part.</p>
+    <span class="eyebrow">Lesson 2 · Book page 110 · Topic: selection (if / else)</span>
+    <h2>Shake it and it looks sad. Leave it and it looks happy</h2>
+    <p class="muted">The program asks one yes-or-no question again and again: "Is someone shaking me?" If the answer is <b>yes</b>, it shows a sad face. If the answer is <b>no</b>, it shows a happy face.</p>
   </div>
   <div class="stage">
     <div class="panel">
-      <span class="panel-label">The code (same as the book)</span>
+      <span class="panel-label">The code, as it looks in the book</span>
       <div class="code">
         <div class="hat" style="--c:var(--b-basic)">
           <div class="title">forever</div>
@@ -253,40 +285,47 @@ footer{color:var(--muted); font-size:.9rem}
     </div>
     <div class="panel boardwrap">
       <span class="panel-label">Pretend micro:bit</span>
+      <p class="doit">Tap the blue "Shake it" button under the board</p>
       <div class="mb" id="mb2"></div>
-      <div class="status"><span class="chip f" id="cond">is shake gesture? FALSE</span></div>
+      <div class="status"><span class="chip f" id="cond">Is it being shaken? NO</span></div>
       <p class="log" id="log2" aria-live="polite">Not being shaken, so the <i>else</i> part runs and shows a happy face.</p>
       <div class="controls"><button class="btn primary" id="shakeBtn">Shake it</button></div>
     </div>
   </div>
   <div class="explain">
     <div class="panel">
-      <h3>In everyday words</h3>
-      <p class="analogy">"If it's raining, take an umbrella. Otherwise, take sunglasses." You only ever do one of the two, and which one depends on the answer to the question.</p>
-      <p>The <i>if</i> block sits inside <b>forever</b> so the micro:bit checks the question all the time, not just once.</p>
+      <h3>What the blocks say, in plain English</h3>
+      <ol class="plain">
+        <li><span class="b" style="--c:var(--b-basic)">forever</span> Keep checking again and again, without stopping.</li>
+        <li><span class="b" style="--c:var(--b-logic)">if is shake gesture then</span> Ask: is someone shaking me? If <b>yes</b>:</li>
+        <li><span class="b" style="--c:var(--b-basic)">show icon (sad)</span> Show a sad face.</li>
+        <li><span class="b" style="--c:var(--b-logic)">else</span> If the answer is <b>no</b>:</li>
+        <li><span class="b" style="--c:var(--b-basic)">show icon (happy)</span> Show a happy face.</li>
+      </ol>
     </div>
     <div class="panel">
-      <h3>Things to try</h3>
+      <h3>Try this</h3>
       <ul>
-        <li>Press <i>Shake it</i> and watch the yellow outline jump from the <i>else</i> part to the top part.</li>
-        <li>When the shaking stops, the condition is False again and the happy face returns.</li>
-        <li>Ask: what if we swapped the two faces? The program would be happy when shaken.</li>
+        <li>Tap <b>Shake it</b>. The board wobbles and the face turns sad. The yellow line moves to the top part of the code.</li>
+        <li>Wait a moment. The shaking stops, the answer becomes "no", and the happy face comes back.</li>
       </ul>
+      <p class="analogy">An everyday example: "<b>If</b> it is raining, take an umbrella. <b>Else</b> (otherwise), take sunglasses." You only do one of the two. The book calls this <b>selection</b>, because the computer selects (chooses) what to do.</p>
+      <p class="muted">The book also uses the words <b>True</b> (means yes) and <b>False</b> (means no).</p>
     </div>
   </div>
-  <div class="panel quiz" data-quiz="shake"><h3>Check your understanding</h3></div>
+  <div class="panel quiz" data-quiz="shake"><h3>Quick quiz</h3><p class="muted">Tap the answer you think is right. Green means correct.</p></div>
 </section>
 
 <!-- LESSON 3 -->
 <section class="lesson" id="repeat" role="tabpanel" aria-labelledby="tab-repeat" hidden>
   <div class="lesson-head">
-    <span class="eyebrow">Lesson 3 · Iteration</span>
-    <h2>Flash an arrow 4 times with a loop</h2>
-    <p class="muted">When button B is pressed, the <b>repeat</b> block runs the steps inside it 4 times. Each time it shows an arrow, waits, clears the screen and waits again, which makes the arrow flash.</p>
+    <span class="eyebrow">Lesson 3 · "Now try this" page · Topic: loops (iteration)</span>
+    <h2>Press B and the arrow flashes 4 times</h2>
+    <p class="muted">Instead of writing the same instructions 4 times, the program says "repeat 4 times". Each time, it shows the arrow, waits a moment, turns the lights off and waits again. That's what makes it flash.</p>
   </div>
   <div class="stage">
     <div class="panel">
-      <span class="panel-label">The code (same as the book)</span>
+      <span class="panel-label">The code, as it looks in the book</span>
       <div class="code">
         <div class="hat" style="--c:var(--b-input)" id="r-event">
           <div class="title">on <span class="pill dd">button B</span> pressed</div>
@@ -306,9 +345,10 @@ footer{color:var(--muted); font-size:.9rem}
     </div>
     <div class="panel boardwrap">
       <span class="panel-label">Pretend micro:bit</span>
+      <p class="doit">Tap the B button on the right of the board</p>
       <div class="mb" id="mb3"></div>
       <div class="status"><span class="chip" id="loopChip">Waiting for button B</span></div>
-      <p class="log" id="log3" aria-live="polite">Nothing happens until button B is pressed. That press is the <i>event</i>.</p>
+      <p class="log" id="log3" aria-live="polite">Nothing happens until you tap B. The program is waiting, like a doorbell.</p>
       <div class="controls">
         <label class="inline" for="times">Repeat
           <input type="number" id="times" min="1" max="9" value="4"> times</label>
@@ -318,20 +358,28 @@ footer{color:var(--muted); font-size:.9rem}
   </div>
   <div class="explain">
     <div class="panel">
-      <h3>In everyday words</h3>
-      <p class="analogy">Instead of writing "clap, clap, clap, clap" you write "clap 4 times". A loop saves you from writing the same instructions again and again.</p>
-      <p>A pause of 200 ms is a fifth of a second. Without the <i>clear screen</i> block the arrow would stay lit and you would not see it flash.</p>
+      <h3>What the blocks say, in plain English</h3>
+      <ol class="plain">
+        <li><span class="b" style="--c:var(--b-input)">on button B pressed</span> Wait until someone presses button B. Then:</li>
+        <li><span class="b" style="--c:var(--b-loop)">repeat 4 times</span> Do the next 4 steps, 4 times over:</li>
+        <li><span class="b" style="--c:var(--b-basic)">show leds</span> Light up the arrow picture.</li>
+        <li><span class="b" style="--c:var(--b-basic)">pause (ms) 200</span> Wait a moment. 200 ms means a fifth of a second.</li>
+        <li><span class="b" style="--c:var(--b-basic)">clear screen</span> Turn all the lights off.</li>
+        <li><span class="b" style="--c:var(--b-basic)">pause (ms) 200</span> Wait a moment again.</li>
+      </ol>
     </div>
     <div class="panel">
-      <h3>Things to try</h3>
+      <h3>Try this</h3>
       <ul>
-        <li>Press button B and count the flashes. Tick <i>Slow motion</i> to follow each block.</li>
-        <li>Change the number to 2 or 7. The code changes, and so does the number of flashes.</li>
-        <li>Press button A. Nothing happens, because the program only listens for B.</li>
+        <li>Tap B and count the flashes. You should count 4.</li>
+        <li>Tick <b>Slow motion</b> to see each step clearly.</li>
+        <li>Change the number 4 to 2 or 7, then tap B again. It flashes that many times.</li>
+        <li>Tap A. Nothing happens, because the program only waits for B.</li>
       </ul>
+      <p class="analogy">An everyday example: instead of saying "clap, clap, clap, clap", you say "clap 4 times". The book calls this a <b>loop</b> or <b>iteration</b>.</p>
     </div>
   </div>
-  <div class="panel quiz" data-quiz="repeat"><h3>Check your understanding</h3></div>
+  <div class="panel quiz" data-quiz="repeat"><h3>Quick quiz</h3><p class="muted">Tap the answer you think is right. Green means correct.</p></div>
 </section>
 
 <footer>To try the real thing, the book uses MakeCode at <b>makecode.microbit.org</b>. The blocks there look just like the ones on this page.</footer>
@@ -412,42 +460,42 @@ async function onStart(){
 async function pressA1(){
   if (!powered){ log1.textContent = "The micro:bit has no power. Plug the battery back in first."; return; }
   const before = count; count++; vCount.textContent = count;
-  log1.innerHTML = `Button A pressed. The <i>if</i> is True, so Count goes from ${before} to <b>${count}</b>.`;
+  log1.innerHTML = `You pressed A. The number in the Count box goes from ${before} to <b>${count}</b>.`;
   mb1.showNumber(count);
   await pulse(["c-if","c-inc","c-show"], 200);
 }
 async function pressB1(){
   if (!powered) return;
-  log1.innerHTML = "Button B pressed. The code only asks about button A, so nothing changes.";
+  log1.innerHTML = "You pressed B. The program only looks at button A, so nothing changes.";
   await pulse(["c-if"], 300);
 }
 document.getElementById("unplug").addEventListener("click", async e => {
   powered = !powered;
   mb1.el.classList.toggle("off", !powered);
   e.target.textContent = powered ? "Unplug battery" : "Plug battery back in";
-  if (!powered){ mb1.clear(); vCount.textContent = "–"; log1.textContent = "Power off. The screen is dark and the value of Count is lost."; }
-  else { log1.innerHTML = "Power back on. The program was saved, so it runs again. <i>on start</i> sets Count to 0."; await onStart(); }
+  if (!powered){ mb1.clear(); vCount.textContent = "–"; log1.textContent = "Switched off. The lights are dark and the number is forgotten."; }
+  else { log1.innerHTML = "Switched back on. The program is still saved, so it starts again from 0."; await onStart(); }
 });
 onStart();
 
 /* ---------- Lesson 2 ---------- */
 let shaking = false;
 const mb2 = makeBoard(document.getElementById("mb2"),
-  () => { log2.textContent = "Button A isn't part of this program. Only shaking matters here."; },
-  () => { log2.textContent = "Button B isn't part of this program. Only shaking matters here."; });
+  () => { log2.textContent = "This program doesn't use button A. Try the Shake it button instead."; },
+  () => { log2.textContent = "This program doesn't use button B. Try the Shake it button instead."; });
 const cond = document.getElementById("cond"), log2 = document.getElementById("log2");
 const sThen = document.getElementById("s-then"), sElse = document.getElementById("s-else");
 let lastState = null;
 setInterval(() => { // the "forever" loop
   if (shaking === lastState) return; lastState = shaking;
   mb2.show(shaking ? ICONS.sad : ICONS.happy);
-  cond.textContent = `is shake gesture? ${shaking ? "TRUE" : "FALSE"}`;
+  cond.textContent = `Is it being shaken? ${shaking ? "YES (True)" : "NO (False)"}`;
   cond.className = "chip " + (shaking ? "t" : "f");
   sThen.classList.toggle("active-branch", shaking);
   sElse.classList.toggle("active-branch", !shaking);
   log2.innerHTML = shaking
-    ? "It's being shaken, so the condition is True. The top part runs: sad face."
-    : "Not being shaken, so the condition is False. The <i>else</i> part runs: happy face.";
+    ? "The answer is <b>yes</b>, so it shows the sad face."
+    : "The answer is <b>no</b>, so the <i>else</i> part works and it shows the happy face.";
 }, 100);
 document.getElementById("shakeBtn").addEventListener("click", async () => {
   if (shaking) return;
@@ -464,7 +512,7 @@ timesIn.addEventListener("input", () => {
   let v = Math.max(1, Math.min(9, parseInt(timesIn.value) || 1)); rN.textContent = v;
 });
 const mb3 = makeBoard(document.getElementById("mb3"),
-  () => { if(!running) log3.textContent = "Button A doesn't start anything. The event block is waiting for B."; },
+  () => { if(!running) log3.textContent = "Nothing happens with A. This program only waits for button B."; },
   runLoop);
 async function runLoop(){
   if (running) return; running = true;
@@ -472,9 +520,9 @@ async function runLoop(){
   const on = id => document.getElementById(id).classList.add("run");
   const off = id => document.getElementById(id).classList.remove("run");
   on("r-event"); on("r-repeat");
-  log3.innerHTML = `Button B pressed. The loop will run <b>${n}</b> times.`;
+  log3.innerHTML = `You pressed B. The arrow will flash <b>${n}</b> times.`;
   for (let i = 1; i <= n; i++){
-    chip.textContent = `Repeat ${i} of ${n}`;
+    chip.textContent = `Flash ${i} of ${n}`;
     on("r-show"); mb3.show(ICONS.arrow); await sleep(p/3); off("r-show");
     on("r-p1"); await sleep(p - p/3); off("r-p1");
     on("r-clear"); mb3.clear(); await sleep(p/3); off("r-clear");
@@ -482,7 +530,7 @@ async function runLoop(){
   }
   off("r-event"); off("r-repeat");
   chip.textContent = `Done: flashed ${n} times`;
-  log3.innerHTML = `The loop finished after ${n} times. Press B to run it again.`;
+  log3.innerHTML = `Finished. It flashed ${n} times. Tap B to watch again.`;
   running = false;
 }
 
